@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <QtWidgets/QMainWindow>
 #include "ui_MainWindow.h"
@@ -15,4 +15,9 @@ private:
 
 private slots:
     void on_newFileAction_triggered();
+    void on_openFileAction_triggered();
+    void on_saveFileAction_triggered();
+
+    void on_addElementPushButton_clicked();
+    void on_renderArea_elementPlaced(QPoint location, Qt::Orientation orientation);
 };
