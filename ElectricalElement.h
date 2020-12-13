@@ -9,35 +9,59 @@
 
 enum class RenderingState;
 
+// Класс электрического элемента
 class ElectricalElement
 {
 public:
-	ElectricalElement(QPoint location, Qt::Orientation orientation, double resistance);
-	virtual ~ElectricalElement() {}
+    // Конструктор, принимающий позицию центра, ориентацию и сопротивление
+    ElectricalElement(QPoint location, Qt::Orientation orientation, double resistance);
+    // Деструктор
+    virtual ~ElectricalElement() {}
 
-	virtual void fillPropertiesTable(QTableWidget* tw) const;
-	virtual void writeJson(QJsonObject& json) const = 0;
+    // Обновление свойств элемента по списку
+    virtual bool updateFromProperties(const QStringList& properties) = 0;
+    // Заполнение таблицы свойств
+    virtual void fillPropertiesTable(QTableWidget* tw) const;
+    // Запись элемента в JSON-документ
+    virtual void writeJson(QJsonObject& json) const = 0;
 
-	QPoint getLocation() const { return location; }
-	Qt::Orientation getOrientation() const { return orientation; }
-	virtual void render(QPainter& painter, RenderingState state) const = 0;
-	virtual QIcon* getIcon() const;
+    // Геттеры и сеттеры для позиции и ориентации элемента
+    QPoint getLocation() const { return location; }
+    Qt::Orientation getOrientation() const { return orientation; }
+    void setLocation(QPoint newLocation) { location = newLocation; }
+    void setOrientation(Qt::Orientation newOrientation) { orientation = newOrientation; }
+    // Получение крайних точек элемента
+    virtual QVector<QPoint> getEndPoints() const;
+    // Отрисовка элемента в нужном состоянии
+    virtual void render(QPainter& painter, RenderingState state) const = 0;
+    // Получение изображения элемента
+    virtual QIcon* getIcon() const;
 
-	virtual double getResistance() { return resistance; }
+    // Геттер для сопротивления
+    virtual double getResistance() const { return resistance; }
+    // Обновление состояния элемента при прохождении через него тока
+    virtual void onCurrentFlow(double current) { }
 
-	virtual bool operator==(const ElectricalElement& other) const;
+    // Оператор сравнения
+    virtual bool operator==(const ElectricalElement& other) const;
 
 protected:
-	QPoint location;
-	Qt::Orientation orientation;
+    // Позиция центра
+    QPoint location;
+    // Ориентация элемента
+    Qt::Orientation orientation;
 
-	double resistance;
+    // Сопротивление элемента
+    double resistance;
 };
 
+// Фабрика для электрических элементов
 class ElectricalElementFactory
 {
 public:
-	virtual ElectricalElement* create(QPoint location, Qt::Orientation orientation, const QStringList& properties) const = 0;
-	virtual ElectricalElement* readJsonAndCreate(const QJsonObject& json) const = 0;
+    // Создание элемента по позиции, ориентации и списку свойств
+    virtual ElectricalElement* create(QPoint location, Qt::Orientation orientation, const QStringList& properties) const = 0;
+    // Создание элемента из JSON-объекта
+    virtual ElectricalElement* readJsonAndCreate(const QJsonObject& json) const = 0;
 };
 

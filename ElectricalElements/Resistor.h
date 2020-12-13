@@ -2,20 +2,30 @@
 
 #include "../ElectricalElement.h"
 
+// Класс резистора
 class Resistor : public ElectricalElement
 {
 public:
-	Resistor(QPoint location, Qt::Orientation orientation, double resistance);
+    // Конструктор, принимающий позицию центра, ориентацию и сопротивление
+    Resistor(QPoint location, Qt::Orientation orientation, double resistance);
 
-	void fillPropertiesTable(QTableWidget* tw) const;
-	void writeJson(QJsonObject& json) const;
+    // Обновление свойств резистора по списку
+    bool updateFromProperties(const QStringList& properties);
+    // Заполнение таблицы свойств
+    void fillPropertiesTable(QTableWidget* tw) const;
+    // Запись резистора в JSON-документ
+    void writeJson(QJsonObject& json) const;
 
-	void render(QPainter& painter, RenderingState state) const;
+    // Отрисовка резистора в нужном состоянии
+    void render(QPainter& painter, RenderingState state) const;
 };
 
+// Фабрика для резисторов
 class ResistorFactory : public ElectricalElementFactory
 {
 public:
-	ElectricalElement* create(QPoint location, Qt::Orientation orientation, const QStringList& properties) const;
-	ElectricalElement* readJsonAndCreate(const QJsonObject& json) const;
+    // Создание резистора по позиции, ориентации и списку свойств
+    ElectricalElement* create(QPoint location, Qt::Orientation orientation, const QStringList& properties) const;
+    // Создание резистора из JSON-объекта
+    ElectricalElement* readJsonAndCreate(const QJsonObject& json) const;
 };

@@ -65,12 +65,30 @@
     <ClCompile Include="ElectricalElements\ElectricHeater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EditElementDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ElectricalCircuitCalculator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ElectricalElements\VoltageSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ElectricalElements\CurrentSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ElectricalElements\ElectricLamp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="RenderArea.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="AddElementDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="EditElementDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -93,9 +111,24 @@
     <ClInclude Include="ElectricalElements\ElectricHeater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ElectricalCircuitCalculator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectricalElements\VoltageSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectricalElements\CurrentSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectricalElements\ElectricLamp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="AddElementWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="EditElementWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

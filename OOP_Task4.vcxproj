@@ -87,15 +87,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AddElementDialog.cpp" />
+    <ClCompile Include="EditElementDialog.cpp" />
+    <ClCompile Include="ElectricalCircuitCalculator.cpp" />
     <ClCompile Include="ElectricalElement.cpp" />
     <ClCompile Include="ElectricalElementsManager.cpp" />
+    <ClCompile Include="ElectricalElements\CurrentSource.cpp" />
     <ClCompile Include="ElectricalElements\ElectricHeater.cpp" />
+    <ClCompile Include="ElectricalElements\ElectricLamp.cpp" />
     <ClCompile Include="ElectricalElements\Resistor.cpp" />
     <ClCompile Include="ElectricalElements\Switch.cpp" />
+    <ClCompile Include="ElectricalElements\VoltageSource.cpp" />
     <ClCompile Include="ElectricalElements\Wire.cpp" />
     <ClCompile Include="RenderArea.cpp" />
     <QtRcc Include="MainWindow.qrc" />
     <QtUic Include="AddElementWindow.ui" />
+    <QtUic Include="EditElementWindow.ui" />
     <QtUic Include="MainWindow.ui" />
     <QtMoc Include="MainWindow.h" />
     <ClCompile Include="MainWindow.cpp" />
@@ -105,8 +111,13 @@
     <QtMoc Include="RenderArea.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="EditElementDialog.h" />
+    <ClInclude Include="ElectricalCircuitCalculator.h" />
+    <ClInclude Include="ElectricalElements\CurrentSource.h" />
     <ClInclude Include="ElectricalElements\ElectricHeater.h" />
+    <ClInclude Include="ElectricalElements\ElectricLamp.h" />
     <ClInclude Include="ElectricalElements\Switch.h" />
+    <ClInclude Include="ElectricalElements\VoltageSource.h" />
     <ClInclude Include="ElectricalElements\Wire.h" />
     <QtMoc Include="AddElementDialog.h" />
     <ClInclude Include="ElectricalElement.h" />

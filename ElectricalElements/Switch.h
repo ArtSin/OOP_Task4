@@ -1,31 +1,43 @@
-#pragma once
+﻿#pragma once
 
 #include "../ElectricalElement.h"
 
+// Класс выключателя
 class Switch : public ElectricalElement
 {
 public:
-	Switch(QPoint location, Qt::Orientation orientation, bool toggled);
+    // Конструктор, принимающий позицию центра, ориентацию и состояние
+    Switch(QPoint location, Qt::Orientation orientation, bool toggled);
 
-	void fillPropertiesTable(QTableWidget* tw) const;
-	void writeJson(QJsonObject& json) const;
+    // Обновление свойств выключателя по списку
+    bool updateFromProperties(const QStringList& properties);
+    // Заполнение таблицы свойств
+    void fillPropertiesTable(QTableWidget* tw) const;
+    // Запись выключателя в JSON-документ
+    void writeJson(QJsonObject& json) const;
 
-	void render(QPainter& painter, RenderingState state) const;
+    // Отрисовка выключателя в нужном состоянии
+    void render(QPainter& painter, RenderingState state) const;
 
-	bool isToggled() { return toggled; }
-	void toggle()
-	{
-		toggled ^= 1;
-		resistance = (toggled ? 0 : std::numeric_limits<double>().infinity());
-	}
+    // Состояние выключателя
+    bool isToggled() { return toggled; }
+    // Переключение выключателя
+    void toggle()
+    {
+        toggled ^= 1;
+        resistance = (toggled ? 0.0 : std::numeric_limits<double>().infinity());
+    }
 
 private:
-	bool toggled;
+    bool toggled;
 };
 
+// Фабрика для выключателей
 class SwitchFactory : public ElectricalElementFactory
 {
 public:
-	ElectricalElement* create(QPoint location, Qt::Orientation orientation, const QStringList& properties) const;
-	ElectricalElement* readJsonAndCreate(const QJsonObject& json) const;
+    // Создание выключателя по позиции, ориентации и списку свойств
+    ElectricalElement* create(QPoint location, Qt::Orientation orientation, const QStringList& properties) const;
+    // Создание выключателя из JSON-объекта
+    ElectricalElement* readJsonAndCreate(const QJsonObject& json) const;
 };

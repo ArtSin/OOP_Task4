@@ -1,13 +1,13 @@
-﻿#include "ElectricHeater.h"
+﻿#include "ElectricLamp.h"
 
 // Конструктор, принимающий позицию центра, ориентацию и сопротивление
-ElectricHeater::ElectricHeater(QPoint location, Qt::Orientation orientation, double resistance)
+ElectricLamp::ElectricLamp(QPoint location, Qt::Orientation orientation, double resistance)
     : ElectricalElement(location, orientation, resistance), activated(false)
 {
 }
 
-// Обновление свойств электронагревателя по списку
-bool ElectricHeater::updateFromProperties(const QStringList& properties)
+// Обновление свойств лампы по списку
+bool ElectricLamp::updateFromProperties(const QStringList& properties)
 {
     // Сопротивление
     bool ok;
@@ -20,7 +20,7 @@ bool ElectricHeater::updateFromProperties(const QStringList& properties)
 }
 
 // Заполнение таблицы свойств
-void ElectricHeater::fillPropertiesTable(QTableWidget* tw) const
+void ElectricLamp::fillPropertiesTable(QTableWidget* tw) const
 {
     // Создание 2 столбцов и 1 строки
     ElectricalElement::fillPropertiesTable(tw);
@@ -35,18 +35,18 @@ void ElectricHeater::fillPropertiesTable(QTableWidget* tw) const
     tw->setItem(0, 1, item01);
 }
 
-// Запись электронагревателя в JSON-документ
-void ElectricHeater::writeJson(QJsonObject& json) const
+// Запись лампы в JSON-документ
+void ElectricLamp::writeJson(QJsonObject& json) const
 {
-    json["type"] = "electricHeater";
+    json["type"] = "electricLamp";
     json["x"] = location.x();
     json["y"] = location.y();
     json["orientation"] = (orientation == Qt::Horizontal) ? "horizontal" : "vertical";
     json["resistance"] = resistance;
 }
 
-// Отрисовка электронагревателя в нужном состоянии
-void ElectricHeater::render(QPainter& painter, RenderingState state) const
+// Отрисовка лампы в нужном состоянии
+void ElectricLamp::render(QPainter& painter, RenderingState state) const
 {
     // Переход к левому/верхнему краю и горизонтальной ориентации
     if (orientation == Qt::Horizontal)
@@ -57,26 +57,30 @@ void ElectricHeater::render(QPainter& painter, RenderingState state) const
         painter.rotate(90.0);
     }
 
-    // Провода по краям электронагревателя
-    painter.drawRect(0, -1, 4 * RenderArea::GRID_POINTS_DISTANCE / 10, 2);
-    painter.drawRect(16 * RenderArea::GRID_POINTS_DISTANCE / 10, -1, 4 * RenderArea::GRID_POINTS_DISTANCE / 10, 2);
-    
-    // Основная часть - прямоугольник (красный, если нагрет)
+    // Провода по краям лампы
+    painter.drawRect(0, -1, RenderArea::GRID_POINTS_DISTANCE / 2 + 1, 2);
+    painter.drawRect(3 * RenderArea::GRID_POINTS_DISTANCE / 2, -1, RenderArea::GRID_POINTS_DISTANCE / 2 + 1, 2);
+
+    // Основная часть - круг
     painter.save();
-    painter.setBrush(activated ? RenderArea::RED_BRUSH : RenderArea::WHITE_BRUSH);
+    painter.setBrush(activated ? RenderArea::YELLOW_BRUSH : RenderArea::WHITE_BRUSH);
     painter.setPen(RenderArea::findPen(state));
-    painter.drawRect(4 * RenderArea::GRID_POINTS_DISTANCE / 10, -RenderArea::GRID_POINTS_DISTANCE / 4,
-        12 * RenderArea::GRID_POINTS_DISTANCE / 10, RenderArea::GRID_POINTS_DISTANCE / 2);
+    painter.drawEllipse(RenderArea::GRID_POINTS_DISTANCE / 2 + 1, -RenderArea::GRID_POINTS_DISTANCE / 2 + 1,
+        RenderArea::GRID_POINTS_DISTANCE - 2, RenderArea::GRID_POINTS_DISTANCE - 2);
     painter.restore();
 
-    // Полоски
-    for (int i = 0; i < 3; i++)
-        painter.drawRect((7 + 3 * i) * RenderArea::GRID_POINTS_DISTANCE / 10 - 1, -RenderArea::GRID_POINTS_DISTANCE / 4,
-            2, RenderArea::GRID_POINTS_DISTANCE / 2);
+    // Крест
+    painter.save();
+    painter.translate(RenderArea::GRID_POINTS_DISTANCE, 0);
+    painter.rotate(45);
+    painter.drawRect(-RenderArea::GRID_POINTS_DISTANCE / 2, -1, RenderArea::GRID_POINTS_DISTANCE, 2);
+    painter.rotate(-90);
+    painter.drawRect(-RenderArea::GRID_POINTS_DISTANCE / 2, -1, RenderArea::GRID_POINTS_DISTANCE, 2);
+    painter.restore();
 }
 
-// Создание электронагревателя по позиции, ориентации и списку свойств
-ElectricalElement* ElectricHeaterFactory::create(QPoint location, Qt::Orientation orientation, const QStringList& properties) const
+// Создание лампы по позиции, ориентации и списку свойств
+ElectricalElement* ElectricLampFactory::create(QPoint location, Qt::Orientation orientation, const QStringList& properties) const
 {
     // Сопротивление
     bool ok = false;
@@ -84,11 +88,11 @@ ElectricalElement* ElectricHeaterFactory::create(QPoint location, Qt::Orientatio
     if (!ok || resistance <= 0)
         return nullptr;
     // Создание
-    return new ElectricHeater(location, orientation, resistance);
+    return new ElectricLamp(location, orientation, resistance);
 }
 
-// Создание электронагревателя из JSON-объекта
-ElectricalElement* ElectricHeaterFactory::readJsonAndCreate(const QJsonObject& json) const
+// Создание лампы из JSON-объекта
+ElectricalElement* ElectricLampFactory::readJsonAndCreate(const QJsonObject& json) const
 {
     // Позиция
     if (!json.contains("x") || !json.contains("y"))
@@ -113,5 +117,5 @@ ElectricalElement* ElectricHeaterFactory::readJsonAndCreate(const QJsonObject& j
         return nullptr;
 
     // Создание
-    return new ElectricHeater(QPoint(x, y), orientation, resistance);
+    return new ElectricLamp(QPoint(x, y), orientation, resistance);
 }

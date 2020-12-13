@@ -79,12 +79,15 @@
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
       <widget class="RenderArea" name="renderArea">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>627</width>
+         <width>559</width>
          <height>407</height>
         </rect>
        </property>
@@ -104,6 +107,20 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="moveElementPushButton">
+        <property name="text">
+         <string>Переместить элемент</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="editElementPushButton">
+        <property name="text">
+         <string>Изменить элемент</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="toggleElementPushButton">
         <property name="text">
          <string>Переключить элемент</string>
@@ -118,9 +135,49 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="cancelPushButton">
+       <widget class="QPushButton" name="calculateCircuitPushButton">
         <property name="text">
-         <string>Отменить действие</string>
+         <string>Вычислить характеристики схемы</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="measureVoltagePushButton">
+        <property name="text">
+         <string>Найти напряжение</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="measureCurrentPushButton">
+        <property name="text">
+         <string>Найти ток</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="voltageLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Напряжение: -</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="currentLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Ток: -</string>
         </property>
        </widget>
       </item>
