@@ -10,7 +10,7 @@
             "orientation": "horizontal",
             "type": "wire",
             "x": 3,
-            "y": 8
+            "y": 10
         },
         {
             "orientation": "horizontal",
@@ -23,7 +23,7 @@
             "orientation": "horizontal",
             "type": "wire",
             "x": 5,
-            "y": 8
+            "y": 10
         },
         {
             "orientation": "horizontal",
@@ -37,7 +37,7 @@
             "resistance": 1,
             "type": "resistor",
             "x": 7,
-            "y": 8
+            "y": 10
         },
         {
             "orientation": "horizontal",
@@ -49,7 +49,7 @@
             "orientation": "horizontal",
             "type": "wire",
             "x": 9,
-            "y": 8
+            "y": 10
         },
         {
             "orientation": "vertical",
@@ -61,17 +61,36 @@
         },
         {
             "orientation": "vertical",
-            "resistance": 3,
+            "type": "wire",
+            "x": 2,
+            "y": 9
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 0.5,
             "type": "resistor",
             "x": 4,
             "y": 7
         },
         {
             "orientation": "vertical",
-            "resistance": 1,
+            "toggled": false,
+            "type": "switch",
+            "x": 4,
+            "y": 9
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 2,
             "type": "electricHeater",
             "x": 10,
             "y": 7
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 10,
+            "y": 9
         }
     ]
 }
