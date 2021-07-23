@@ -1,0 +1,484 @@
+{
+    "elements": [
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 7,
+            "y": 4
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 7,
+            "y": 14
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 9,
+            "y": 2
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricHeater",
+            "x": 9,
+            "y": 16
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricHeater",
+            "x": 9,
+            "y": 18
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 11,
+            "y": 2
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 0,
+            "type": "voltageSource",
+            "voltage": 1,
+            "x": 11,
+            "y": 8
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 11,
+            "y": 10
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricHeater",
+            "x": 11,
+            "y": 16
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricHeater",
+            "x": 11,
+            "y": 18
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 11,
+            "y": 20
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 13,
+            "y": 6
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricHeater",
+            "x": 13,
+            "y": 16
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricHeater",
+            "x": 13,
+            "y": 18
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 13,
+            "y": 20
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 15,
+            "y": 6
+        },
+        {
+            "current": 1,
+            "orientation": "horizontal",
+            "resistance": 100,
+            "type": "currentSource",
+            "x": 15,
+            "y": 16
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 15,
+            "y": 18
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 15,
+            "y": 20
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 17,
+            "y": 6
+        },
+        {
+            "current": 1,
+            "orientation": "horizontal",
+            "resistance": 100,
+            "type": "currentSource",
+            "x": 17,
+            "y": 16
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 17,
+            "y": 18
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 17,
+            "y": 20
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 19,
+            "y": 6
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricHeater",
+            "x": 19,
+            "y": 16
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricHeater",
+            "x": 19,
+            "y": 18
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 19,
+            "y": 20
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 21,
+            "y": 2
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 0,
+            "type": "voltageSource",
+            "voltage": 1,
+            "x": 21,
+            "y": 8
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 21,
+            "y": 10
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricHeater",
+            "x": 21,
+            "y": 16
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricHeater",
+            "x": 21,
+            "y": 18
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 21,
+            "y": 20
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 23,
+            "y": 2
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricHeater",
+            "x": 23,
+            "y": 16
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricHeater",
+            "x": 23,
+            "y": 18
+        },
+        {
+            "orientation": "horizontal",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 25,
+            "y": 4
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 25,
+            "y": 14
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 6,
+            "y": 5
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 6,
+            "y": 7
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 6,
+            "y": 9
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 6,
+            "y": 11
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 6,
+            "y": 13
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 8,
+            "y": 3
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 8,
+            "y": 15
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 8,
+            "y": 17
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 10,
+            "y": 9
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "resistor",
+            "x": 10,
+            "y": 19
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 12,
+            "y": 3
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 12,
+            "y": 5
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 12,
+            "y": 7
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 12,
+            "y": 9
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 16,
+            "y": 7
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 16,
+            "y": 9
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 16,
+            "y": 11
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricHeater",
+            "x": 16,
+            "y": 13
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricHeater",
+            "x": 16,
+            "y": 15
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 0,
+            "type": "voltageSource",
+            "voltage": 1,
+            "x": 16,
+            "y": 17
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 20,
+            "y": 3
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 20,
+            "y": 5
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 20,
+            "y": 7
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 20,
+            "y": 9
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 22,
+            "y": 9
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "resistor",
+            "x": 22,
+            "y": 19
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 24,
+            "y": 3
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 24,
+            "y": 15
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 24,
+            "y": 17
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 26,
+            "y": 5
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 1,
+            "type": "electricLamp",
+            "x": 26,
+            "y": 7
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 26,
+            "y": 9
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 26,
+            "y": 11
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 26,
+            "y": 13
+        }
+    ]
+}

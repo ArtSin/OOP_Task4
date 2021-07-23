@@ -1,0 +1,70 @@
+{
+    "elements": [
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 5,
+            "y": 2
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 5,
+            "y": 6
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 7,
+            "y": 2
+        },
+        {
+            "orientation": "horizontal",
+            "type": "wire",
+            "x": 7,
+            "y": 6
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 0,
+            "type": "voltageSource",
+            "voltage": 1,
+            "x": 4,
+            "y": 3
+        },
+        {
+            "orientation": "vertical",
+            "type": "wire",
+            "x": 4,
+            "y": 5
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 2,
+            "type": "resistor",
+            "x": 6,
+            "y": 3
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 4,
+            "type": "resistor",
+            "x": 6,
+            "y": 5
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 3,
+            "type": "resistor",
+            "x": 8,
+            "y": 3
+        },
+        {
+            "orientation": "vertical",
+            "resistance": 5,
+            "type": "resistor",
+            "x": 8,
+            "y": 5
+        }
+    ]
+}

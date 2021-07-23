@@ -46,8 +46,8 @@ bool ElectricalCircuitCalculator::findNodesAndElements(QString& error)
 
     // Каждой точке сетки сопоставляются элементы, подключённые к ней
     QMap<QPoint, QVector<ElectricalElement*>> allPoints;
-    for (int or = 0; or < 2; or++) // 2 ориентации
-        for (auto el : ElectricalElementsManager::getInstance().getElements()[or]) // Все элементы с данной ориентацией
+    for (int orient = 0; orient < 2; orient++) // 2 ориентации
+        for (auto el : ElectricalElementsManager::getInstance().getElements()[orient]) // Все элементы с данной ориентацией
             for (auto p : el->getEndPoints()) // Все крайние точки элемента
                 allPoints[p].push_back(el);
 
@@ -225,7 +225,7 @@ bool ElectricalCircuitCalculator::findVoltagesAndCurrents(QString& error)
         // Вершины, к которым подключён элемент
         int i = pr.second.first, j = pr.second.second;
         // Если есть внутреннее сопротивление
-        if (!isinf(pr.first->getResistance()))
+        if (!std::isinf(pr.first->getResistance()))
         {
             // Проводимость элемента
             double conductance = 1.0 / pr.first->getResistance();
@@ -387,7 +387,7 @@ bool ElectricalCircuitCalculator::getCurrent(const QPoint& loc, Qt::Orientation 
         if (currentSources[i].first == el)
         {
             // Если идеальный источник
-            if (isinf(el->getResistance()))
+            if (std::isinf(el->getResistance()))
                 res = currentSources[i].first->getCurrent();
             else
             {

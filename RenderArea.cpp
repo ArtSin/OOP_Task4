@@ -75,6 +75,9 @@ const QPen& RenderArea::findDashPen(RenderingState state)
 // Конструктор
 RenderArea::RenderArea(QWidget* parent) : QWidget(parent)
 {
+    QPalette pal(palette());
+    pal.setColor(QPalette::Base, Qt::white);
+    setPalette(pal);
     setBackgroundRole(QPalette::Base);
     setAutoFillBackground(true);
 
@@ -255,7 +258,7 @@ void RenderArea::mouseReleaseEvent(QMouseEvent* e)
     // Обычное состояние не рассматривается
     if (renderingState == RenderingState::Normal)
         return;
-    
+
     // Сохранение текущего состояния
     auto prevRenderingState = renderingState;
     // Установка обычного состояния
@@ -386,8 +389,8 @@ void RenderArea::paintEvent(QPaintEvent* e)
                 QSize(GRID_POINT_SIZE, GRID_POINT_SIZE)));
 
     // Отрисовка всех элементов схемы (в обычном состоянии)
-    for (int or = 0; or < 2; or++)
-        for (auto el : ElectricalElementsManager::getInstance().getElements()[or])
+    for (int orient = 0; orient < 2; orient++)
+        for (auto el : ElectricalElementsManager::getInstance().getElements()[orient])
         {
             // Сохранение состояния отрисовщика в стеке
             painter.save();
