@@ -368,7 +368,7 @@ void RenderArea::mouseReleaseEvent(QMouseEvent *e) {
 }
 
 // Отрисовка виджета
-void RenderArea::paintEvent(QPaintEvent *e) {
+void RenderArea::paintEvent(QPaintEvent *) {
     // Создание отрисовщика
     QPainter painter(this);
     painter.setRenderHint(QPainter::RenderHint::Antialiasing);

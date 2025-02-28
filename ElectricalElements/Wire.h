@@ -9,7 +9,7 @@ class Wire : public ElectricalElement {
     Wire(QPoint location, Qt::Orientation orientation);
 
     // Обновление свойств провода по списку
-    bool updateFromProperties(const QStringList &properties) { return true; }
+    bool updateFromProperties(const QStringList &) { return true; }
     // Заполнение таблицы свойств
     void fillPropertiesTable(QTableWidget *tw) const;
     // Запись провода в JSON-документ

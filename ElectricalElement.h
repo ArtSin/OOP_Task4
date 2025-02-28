@@ -42,7 +42,7 @@ class ElectricalElement {
     // Геттер для сопротивления
     virtual double getResistance() const { return resistance; }
     // Обновление состояния элемента при прохождении через него тока
-    virtual void onCurrentFlow(double current) {}
+    virtual void onCurrentFlow([[maybe_unused]] double current) {}
 
     // Оператор сравнения
     virtual bool operator==(const ElectricalElement &other) const;
@@ -60,6 +60,8 @@ class ElectricalElement {
 // Фабрика для электрических элементов
 class ElectricalElementFactory {
   public:
+    virtual ~ElectricalElementFactory() {}
+
     // Создание элемента по позиции, ориентации и списку свойств
     virtual ElectricalElement *create(QPoint location,
                                       Qt::Orientation orientation,

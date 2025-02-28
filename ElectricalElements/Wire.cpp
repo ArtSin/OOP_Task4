@@ -20,7 +20,7 @@ void Wire::writeJson(QJsonObject &json) const {
 }
 
 // Отрисовка провода в нужном состоянии
-void Wire::render(QPainter &painter, RenderingState state) const {
+void Wire::render(QPainter &painter, RenderingState) const {
     // Переход к левому/верхнему краю и горизонтальной ориентации
     if (orientation == Qt::Horizontal)
         painter.translate(-RenderArea::GRID_POINTS_DISTANCE, 0);
@@ -44,7 +44,7 @@ void Wire::render(QPainter &painter, RenderingState state) const {
 // Создание провода по позиции, ориентации и списку свойств
 ElectricalElement *WireFactory::create(QPoint location,
                                        Qt::Orientation orientation,
-                                       const QStringList &properties) const {
+                                       const QStringList &) const {
     return new Wire(location, orientation);
 }
 

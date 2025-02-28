@@ -147,8 +147,8 @@ bool ElectricalCircuitCalculator::findNodesAndElements(QString &error) {
 // Нахождение напряжений и токов
 bool ElectricalCircuitCalculator::findVoltagesAndCurrents(QString &error) {
     // Нахождение напряжений с помощью алгоритма MNA
-    // (https://lpsa.swarthmore.edu/Systems/Electrical/mna/MNA3.html) Количество
-    // вершин схемы кроме 0 - земли
+    // (https://lpsa.swarthmore.edu/Systems/Electrical/mna/MNA3.html)
+    // Количество вершин схемы кроме 0 - земли
     int n = nodesCount - 1;
     // Количество идеальных источников напряжения
     int m = voltageSources.size();
@@ -222,8 +222,6 @@ bool ElectricalCircuitCalculator::findVoltagesAndCurrents(QString &error) {
         vsInd++;
     }
 
-    // Номер источника тока
-    int csInd = 0;
     // Все источники тока
     for (const auto &pr : currentSources) {
         // Вершины, к которым подключён элемент
@@ -249,8 +247,6 @@ bool ElectricalCircuitCalculator::findVoltagesAndCurrents(QString &error) {
             a[i - 1][n + m] += pr.first->getCurrent();
         if (j != 0)
             a[j - 1][n + m] -= pr.first->getCurrent();
-
-        csInd++;
     }
 
     // Матрица x - результат

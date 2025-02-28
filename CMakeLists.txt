@@ -11,6 +11,12 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+if(MSVC)
+  add_compile_options(/W4)
+else()
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
 find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 
 add_executable(OOP_Task4

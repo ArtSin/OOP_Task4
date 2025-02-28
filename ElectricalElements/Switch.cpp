@@ -46,7 +46,7 @@ void Switch::writeJson(QJsonObject &json) const {
 }
 
 // Отрисовка выключателя в нужном состоянии
-void Switch::render(QPainter &painter, RenderingState state) const {
+void Switch::render(QPainter &painter, RenderingState) const {
     // Переход к левому/верхнему краю и горизонтальной ориентации
     if (orientation == Qt::Horizontal)
         painter.translate(-RenderArea::GRID_POINTS_DISTANCE, 0);
