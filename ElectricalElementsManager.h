@@ -1,20 +1,18 @@
 ﻿#pragma once
 
-#include <array>
+#include "RenderArea.h"
 #include <QListWidget>
 #include <QTableWidget>
-#include "RenderArea.h"
+#include <array>
 
 // Оператор "меньше" для точек
-bool operator<(const QPoint& a, const QPoint& b);
+bool operator<(const QPoint &a, const QPoint &b);
 
 // Класс управления электрическими элементами и схемой
-class ElectricalElementsManager
-{
-public:
+class ElectricalElementsManager {
+  public:
     // Получение единственного экземпляра класса
-    static ElectricalElementsManager& getInstance()
-    {
+    static ElectricalElementsManager &getInstance() {
         static ElectricalElementsManager instance;
         return instance;
     }
@@ -22,46 +20,54 @@ public:
     ~ElectricalElementsManager();
 
     // Получение элемента-образца по номеру и ориентации
-    const ElectricalElement* getExampleElement(int i, Qt::Orientation orientation) const;
+    const ElectricalElement *
+    getExampleElement(int i, Qt::Orientation orientation) const;
     // Заполнение списка элементами-образцами
-    void fillElementsList(QListWidget* lw) const;
+    void fillElementsList(QListWidget *lw) const;
     // Заполнение таблицы свойств элементом-образцом с заданным номером
-    void fillPropertiesTable(QTableWidget* tw, int i) const { exampleElements[i]->fillPropertiesTable(tw); }
+    void fillPropertiesTable(QTableWidget *tw, int i) const {
+        exampleElements[i]->fillPropertiesTable(tw);
+    }
     // Получение фабрики для элемента с заданным номером
-    ElectricalElementFactory* getFactory(int i) const { return elementsFactories[i]; }
+    ElectricalElementFactory *getFactory(int i) const {
+        return elementsFactories[i];
+    }
 
     // Добавление элемента в схему
-    void addElement(ElectricalElement* element);
+    void addElement(ElectricalElement *element);
     // Получение элемента с заданной позицией и ориентацией
-    ElectricalElement* getElement(const QPoint& loc, Qt::Orientation orientation);
+    ElectricalElement *getElement(const QPoint &loc,
+                                  Qt::Orientation orientation);
     // Удаление элемента из схемы
-    void removeElement(const QPoint& loc, Qt::Orientation orientation, bool deleteElement);
+    void removeElement(const QPoint &loc, Qt::Orientation orientation,
+                       bool deleteElement);
     // Получение всех элементов
-    std::array<QMap<QPoint, ElectricalElement*>, 2>& getElements() { return elements; }
+    std::array<QMap<QPoint, ElectricalElement *>, 2> &getElements() {
+        return elements;
+    }
     // Удаление всех элементов
     void clearElements();
 
     // Чтение всех элементов из JSON-документа
-    bool readElementsFromJson(const QJsonObject& json);
+    bool readElementsFromJson(const QJsonObject &json);
     // Запись всех элементов в JSON-документ
-    void writeElementsToJson(QJsonObject& json) const;
+    void writeElementsToJson(QJsonObject &json) const;
 
-private:
+  private:
     // Конструктор
     ElectricalElementsManager();
 
     // Элементы-образцы с горизонтальной и вертикальной ориентацией
-    QVector<ElectricalElement*> exampleElements;
-    QVector<ElectricalElement*> exampleElementsVertical;
+    QVector<ElectricalElement *> exampleElements;
+    QVector<ElectricalElement *> exampleElementsVertical;
     // Названия элементов-образцов
     QStringList exampleElementsNames;
     // Изображения элементов-образцов
-    QVector<QIcon*> exampleElementsIcons;
+    QVector<QIcon *> exampleElementsIcons;
     // Фабрики элементов
-    QVector<ElectricalElementFactory*> elementsFactories;
+    QVector<ElectricalElementFactory *> elementsFactories;
     // Номера элементов по их названию в JSON-документах
     QMap<QString, int> elementsJsonNames;
     // Все элементы схемы (по ориентации и позиции)
-    std::array<QMap<QPoint, ElectricalElement*>, 2> elements;
+    std::array<QMap<QPoint, ElectricalElement *>, 2> elements;
 };
-

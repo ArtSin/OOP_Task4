@@ -1,40 +1,48 @@
-﻿#include <QJsonArray>
-#include "ElectricalElementsManager.h"
-#include "ElectricalElements/Wire.h"
-#include "ElectricalElements/Resistor.h"
-#include "ElectricalElements/Switch.h"
+﻿#include "ElectricalElementsManager.h"
+#include "ElectricalElements/CurrentSource.h"
 #include "ElectricalElements/ElectricHeater.h"
 #include "ElectricalElements/ElectricLamp.h"
+#include "ElectricalElements/Resistor.h"
+#include "ElectricalElements/Switch.h"
 #include "ElectricalElements/VoltageSource.h"
-#include "ElectricalElements/CurrentSource.h"
+#include "ElectricalElements/Wire.h"
+#include <QJsonArray>
 
 // Оператор "меньше" для точек
-bool operator<(const QPoint& a, const QPoint& b)
-{
+bool operator<(const QPoint &a, const QPoint &b) {
     // Сравнение по x, затем по y
     return (a.x() != b.x()) ? (a.x() < b.x()) : (a.y() < b.y());
 }
 
 // Конструктор
-ElectricalElementsManager::ElectricalElementsManager()
-{
+ElectricalElementsManager::ElectricalElementsManager() {
     // Элементы-образцы с горизонтальной ориентацией
     exampleElements.push_back(new Wire(QPoint(), Qt::Horizontal));
     exampleElements.push_back(new Resistor(QPoint(), Qt::Horizontal, 1.0));
     exampleElements.push_back(new Switch(QPoint(), Qt::Horizontal, false));
-    exampleElements.push_back(new ElectricHeater(QPoint(), Qt::Horizontal, 1.0));
+    exampleElements.push_back(
+        new ElectricHeater(QPoint(), Qt::Horizontal, 1.0));
     exampleElements.push_back(new ElectricLamp(QPoint(), Qt::Horizontal, 1.0));
-    exampleElements.push_back(new VoltageSource(QPoint(), Qt::Horizontal, 0.0, 1.0));
-    exampleElements.push_back(new CurrentSource(QPoint(), Qt::Horizontal, std::numeric_limits<double>().infinity(), 1.0));
+    exampleElements.push_back(
+        new VoltageSource(QPoint(), Qt::Horizontal, 0.0, 1.0));
+    exampleElements.push_back(
+        new CurrentSource(QPoint(), Qt::Horizontal,
+                          std::numeric_limits<double>().infinity(), 1.0));
 
     // Элементы-образцы с вертикальной ориентацией
     exampleElementsVertical.push_back(new Wire(QPoint(), Qt::Vertical));
-    exampleElementsVertical.push_back(new Resistor(QPoint(), Qt::Vertical, 1.0));
-    exampleElementsVertical.push_back(new Switch(QPoint(), Qt::Vertical, false));
-    exampleElementsVertical.push_back(new ElectricHeater(QPoint(), Qt::Vertical, 1.0));
-    exampleElementsVertical.push_back(new ElectricLamp(QPoint(), Qt::Vertical, 1.0));
-    exampleElementsVertical.push_back(new VoltageSource(QPoint(), Qt::Vertical, 0.0, 1.0));
-    exampleElementsVertical.push_back(new CurrentSource(QPoint(), Qt::Vertical, std::numeric_limits<double>().infinity(), 1.0));
+    exampleElementsVertical.push_back(
+        new Resistor(QPoint(), Qt::Vertical, 1.0));
+    exampleElementsVertical.push_back(
+        new Switch(QPoint(), Qt::Vertical, false));
+    exampleElementsVertical.push_back(
+        new ElectricHeater(QPoint(), Qt::Vertical, 1.0));
+    exampleElementsVertical.push_back(
+        new ElectricLamp(QPoint(), Qt::Vertical, 1.0));
+    exampleElementsVertical.push_back(
+        new VoltageSource(QPoint(), Qt::Vertical, 0.0, 1.0));
+    exampleElementsVertical.push_back(new CurrentSource(
+        QPoint(), Qt::Vertical, std::numeric_limits<double>().infinity(), 1.0));
 
     // Названия элементов-образцов
     exampleElementsNames.push_back(QString(u8"Провод"));
@@ -69,8 +77,7 @@ ElectricalElementsManager::ElectricalElementsManager()
 }
 
 // Деструктор
-ElectricalElementsManager::~ElectricalElementsManager()
-{
+ElectricalElementsManager::~ElectricalElementsManager() {
     // Уничтожение элементов-образцов с горизонтальной ориентацией
     for (auto el : exampleElements)
         delete el;
@@ -90,42 +97,44 @@ ElectricalElementsManager::~ElectricalElementsManager()
 }
 
 // Получение элемента-образца по номеру и ориентации
-const ElectricalElement* ElectricalElementsManager::getExampleElement(int i, Qt::Orientation orientation) const
-{
-    return (orientation == Qt::Horizontal) ? exampleElements[i] : exampleElementsVertical[i];
+const ElectricalElement *ElectricalElementsManager::getExampleElement(
+    int i, Qt::Orientation orientation) const {
+    return (orientation == Qt::Horizontal) ? exampleElements[i]
+                                           : exampleElementsVertical[i];
 }
 
 // Заполнение списка элементами-образцами
-void ElectricalElementsManager::fillElementsList(QListWidget* lw) const
-{
+void ElectricalElementsManager::fillElementsList(QListWidget *lw) const {
     // Очищение списка
     lw->clear();
     // Установка изображения
-    lw->setIconSize(QSize(RenderArea::GRID_POINTS_DISTANCE * 2, RenderArea::GRID_POINTS_DISTANCE));
+    lw->setIconSize(QSize(RenderArea::GRID_POINTS_DISTANCE * 2,
+                          RenderArea::GRID_POINTS_DISTANCE));
     // Добавление элементов-образцов
     for (int i = 0; i < exampleElements.size(); i++)
-        lw->addItem(new QListWidgetItem(*exampleElementsIcons[i], exampleElementsNames[i]));
+        lw->addItem(new QListWidgetItem(*exampleElementsIcons[i],
+                                        exampleElementsNames[i]));
 }
 
 // Добавление элемента в схему
-void ElectricalElementsManager::addElement(ElectricalElement* element)
-{
+void ElectricalElementsManager::addElement(ElectricalElement *element) {
     elements[element->getOrientation() - 1][element->getLocation()] = element;
 }
 
 // Получение элемента с заданной позицией и ориентацией
-ElectricalElement* ElectricalElementsManager::getElement(const QPoint& loc, Qt::Orientation orientation)
-{
+ElectricalElement *
+ElectricalElementsManager::getElement(const QPoint &loc,
+                                      Qt::Orientation orientation) {
     auto it = elements[orientation - 1].find(loc);
     return (it != elements[orientation - 1].end()) ? it.value() : nullptr;
 }
 
 // Удаление элемента из схемы
-void ElectricalElementsManager::removeElement(const QPoint& loc, Qt::Orientation orientation, bool deleteElement)
-{
+void ElectricalElementsManager::removeElement(const QPoint &loc,
+                                              Qt::Orientation orientation,
+                                              bool deleteElement) {
     auto it = elements[orientation - 1].find(loc);
-    if (it != elements[orientation - 1].end())
-    {
+    if (it != elements[orientation - 1].end()) {
         // Уничтожение удаляемого элемента
         if (deleteElement)
             delete it.value();
@@ -134,10 +143,8 @@ void ElectricalElementsManager::removeElement(const QPoint& loc, Qt::Orientation
 }
 
 // Удаление всех элементов
-void ElectricalElementsManager::clearElements()
-{
-    for (int i = 0; i < 2; i++)
-    {
+void ElectricalElementsManager::clearElements() {
+    for (int i = 0; i < 2; i++) {
         // Уничтожение элементов
         for (auto el : elements[i])
             delete el;
@@ -146,8 +153,7 @@ void ElectricalElementsManager::clearElements()
 }
 
 // Чтение всех элементов из JSON-документа
-bool ElectricalElementsManager::readElementsFromJson(const QJsonObject& json)
-{
+bool ElectricalElementsManager::readElementsFromJson(const QJsonObject &json) {
     // Массив элементов
     if (!json.contains("elements") || !json["elements"].isArray())
         return false;
@@ -156,8 +162,7 @@ bool ElectricalElementsManager::readElementsFromJson(const QJsonObject& json)
     // Удаление всех элементов
     clearElements();
     // Проход по массиву
-    for (const auto& elObjRef : elArr)
-    {
+    for (const auto &elObjRef : elArr) {
         // Получение объекта
         auto elObj = elObjRef.toObject();
         // Тип элемента
@@ -167,19 +172,18 @@ bool ElectricalElementsManager::readElementsFromJson(const QJsonObject& json)
         if (!elementsJsonNames.contains(key))
             return false;
         // Создание и добавление элемента
-        auto el = elementsFactories[elementsJsonNames[key]]->readJsonAndCreate(elObj);
+        auto el =
+            elementsFactories[elementsJsonNames[key]]->readJsonAndCreate(elObj);
         addElement(el);
     }
     return true;
 }
 
 // Запись всех элементов в JSON-документ
-void ElectricalElementsManager::writeElementsToJson(QJsonObject& json) const
-{
+void ElectricalElementsManager::writeElementsToJson(QJsonObject &json) const {
     QJsonArray elArr;
     for (int i = 0; i < 2; i++)
-        for (auto el : elements[i])
-        {
+        for (auto el : elements[i]) {
             QJsonObject elObj;
             el->writeJson(elObj);
             elArr.append(elObj);

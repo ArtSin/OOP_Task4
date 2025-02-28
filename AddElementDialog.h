@@ -3,25 +3,25 @@
 #include "ui_AddElementWindow.h"
 
 // Диалог добавления элемента
-class AddElementDialog : public QDialog
-{
+class AddElementDialog : public QDialog {
     Q_OBJECT
 
-public:
+  public:
     // Конструктор
-    AddElementDialog(QWidget* parent = nullptr);
+    AddElementDialog(QWidget *parent = nullptr);
     // Получение единственного экземпляра класса
-    static AddElementDialog& getInstance(QWidget* parent = nullptr)
-    {
-        static AddElementDialog* instance = new AddElementDialog(parent);
+    static AddElementDialog &getInstance(QWidget *parent = nullptr) {
+        static AddElementDialog *instance = new AddElementDialog(parent);
         return *instance;
     }
 
     // Геттеры для номера элемента и его свойств
     int getElementIndex() const { return elementIndex; }
-    const QStringList& getElementProperties() const { return elementProperties; }
+    const QStringList &getElementProperties() const {
+        return elementProperties;
+    }
 
-private:
+  private:
     // Элементы интерфейса
     Ui::AddElementDialog ui;
 
@@ -30,7 +30,7 @@ private:
     // Свойства элемента
     QStringList elementProperties;
 
-private slots:
+  private slots:
     // Выбор элемента в списке
     void on_elementsListWidget_itemSelectionChanged();
     // Нажатие кнопки "ОК"

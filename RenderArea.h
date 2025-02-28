@@ -1,22 +1,31 @@
 ﻿#pragma once
 
-#include <cmath>
-#include <QWidget>
-#include <QPainter>
-#include <QMouseEvent>
 #include "ElectricalElement.h"
+#include <QMouseEvent>
+#include <QPainter>
+#include <QWidget>
+#include <cmath>
 
 class ElectricalElement;
 
-// Состояние отрисовки: обычное, размещение, перемещение, изменение, переключение, удаление элемента, измерение напряжения, тока
-enum class RenderingState { Normal, Placing, Moving, Editing, Toggling, Removing, MeasuringVoltage, MeasuringCurrent };
+// Состояние отрисовки: обычное, размещение, перемещение, изменение,
+// переключение, удаление элемента, измерение напряжения, тока
+enum class RenderingState {
+    Normal,
+    Placing,
+    Moving,
+    Editing,
+    Toggling,
+    Removing,
+    MeasuringVoltage,
+    MeasuringCurrent
+};
 
 // Виджет отрисовки
-class RenderArea : public QWidget
-{
+class RenderArea : public QWidget {
     Q_OBJECT
 
-public:
+  public:
     // Расстояние между вершинами сетки
     const static int GRID_POINTS_DISTANCE = 40;
     // Отступ от края сетки
@@ -26,7 +35,8 @@ public:
     // Длина стороны квадрата - вершины сетки
     const static int GRID_POINT_SIZE = 4;
     // Длина стороны всей сетки
-    const static int GRID_SIZE = 2 * GRID_BORDER_OFFSET + GRID_POINTS_COUNT * GRID_POINTS_DISTANCE;
+    const static int GRID_SIZE =
+        2 * GRID_BORDER_OFFSET + GRID_POINTS_COUNT * GRID_POINTS_DISTANCE;
 
     // Кисти
     const static QBrush BLACK_BRUSH;
@@ -51,26 +61,27 @@ public:
     const static QPen BLUE_DASH_PEN;
 
     // Получение вершины сетки по данным координатам
-    inline static QPoint getGridCoordinates(const QPoint& p)
-    {
-        return QPoint((int)std::round(double(p.x() - GRID_BORDER_OFFSET) / GRID_POINTS_DISTANCE),
-            (int)std::round(double(p.y() - GRID_BORDER_OFFSET) / GRID_POINTS_DISTANCE));
+    inline static QPoint getGridCoordinates(const QPoint &p) {
+        return QPoint((int)std::round(double(p.x() - GRID_BORDER_OFFSET) /
+                                      GRID_POINTS_DISTANCE),
+                      (int)std::round(double(p.y() - GRID_BORDER_OFFSET) /
+                                      GRID_POINTS_DISTANCE));
     }
     // Получение координат вершины сетки
-    inline static QPoint getRealCoordinates(const QPoint& p)
-    {
-        return p * GRID_POINTS_DISTANCE + QPoint(GRID_BORDER_OFFSET, GRID_BORDER_OFFSET);
+    inline static QPoint getRealCoordinates(const QPoint &p) {
+        return p * GRID_POINTS_DISTANCE +
+               QPoint(GRID_BORDER_OFFSET, GRID_BORDER_OFFSET);
     }
 
     // Нахождение кисти в зависимости от состояния
-    static const QBrush& findBrush(RenderingState state);
+    static const QBrush &findBrush(RenderingState state);
     // Нахождение пера в зависимости от состояния
-    static const QPen& findPen(RenderingState state);
+    static const QPen &findPen(RenderingState state);
     // Нахождение пера (с пунктирной линией) в зависимости от состояния
-    static const QPen& findDashPen(RenderingState state);
+    static const QPen &findDashPen(RenderingState state);
 
     // Конструктор
-    RenderArea(QWidget* parent = nullptr);
+    RenderArea(QWidget *parent = nullptr);
 
     // Размер виджета
     QSize sizeHint() const;
@@ -80,7 +91,7 @@ public:
     // Получение текущего состояния отрисовки
     RenderingState getRenderingState() const { return renderingState; }
 
-public slots:
+  public slots:
     // Начало размещения элемента
     void startPlacingElement(int elementIndex);
     // Начало перемещения элемента
@@ -101,7 +112,7 @@ public slots:
     // Отдалить
     void zoomOut();
 
-signals:
+  signals:
     // Выбрано место для размещаемого элемента
     void elementPlaced(QPoint location, Qt::Orientation orientation);
     // Выбран изменяемый элемент
@@ -113,7 +124,7 @@ signals:
     // Изменилось состояние отрисовки
     void renderingStateChanged(RenderingState state);
 
-private:
+  private:
     // Максимальный масштаб
     const int MAX_ZOOM_LOG = 2;
     // Минимальный масштаб
@@ -123,7 +134,7 @@ private:
     int zoomLog = 0;
 
     // Приведение масштабированных координат к изначальному масштабу
-    QPoint calcZoomedCoordinates(const QPoint& p);
+    QPoint calcZoomedCoordinates(const QPoint &p);
 
     // Состояние отрисовки
     RenderingState renderingState;
@@ -137,16 +148,16 @@ private:
     // Текущая ориентация элемента
     Qt::Orientation elementOrientation = Qt::Horizontal;
     // Перемещаемый элемент
-    ElectricalElement* movingElement = nullptr;
+    ElectricalElement *movingElement = nullptr;
     // Выбранная вершина сетки для вычисления напряжения
     QPoint selectedNode;
 
     // Нажатие кнопки мыши
-    void mousePressEvent(QMouseEvent* e);
+    void mousePressEvent(QMouseEvent *e);
     // Перемещение мыши
-    void mouseMoveEvent(QMouseEvent* e);
+    void mouseMoveEvent(QMouseEvent *e);
     // Отпускание кнопки мыши
-    void mouseReleaseEvent(QMouseEvent* e);
+    void mouseReleaseEvent(QMouseEvent *e);
     // Отрисовка виджета
-    void paintEvent(QPaintEvent* e);
+    void paintEvent(QPaintEvent *e);
 };

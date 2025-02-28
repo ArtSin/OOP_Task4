@@ -1,14 +1,12 @@
 ﻿#include "Resistor.h"
 
 // Конструктор, принимающий позицию центра, ориентацию и сопротивление
-Resistor::Resistor(QPoint location, Qt::Orientation orientation, double resistance)
-    : ElectricalElement(location, orientation, resistance)
-{
-}
+Resistor::Resistor(QPoint location, Qt::Orientation orientation,
+                   double resistance)
+    : ElectricalElement(location, orientation, resistance) {}
 
 // Обновление свойств резистора по списку
-bool Resistor::updateFromProperties(const QStringList& properties)
-{
+bool Resistor::updateFromProperties(const QStringList &properties) {
     // Сопротивление
     bool ok;
     double newResistance = properties[0].toDouble(&ok);
@@ -20,8 +18,7 @@ bool Resistor::updateFromProperties(const QStringList& properties)
 }
 
 // Заполнение таблицы свойств
-void Resistor::fillPropertiesTable(QTableWidget* tw) const
-{
+void Resistor::fillPropertiesTable(QTableWidget *tw) const {
     // Создание 2 столбцов и 1 строки
     ElectricalElement::fillPropertiesTable(tw);
     tw->setRowCount(1);
@@ -36,41 +33,43 @@ void Resistor::fillPropertiesTable(QTableWidget* tw) const
 }
 
 // Запись резистора в JSON-документ
-void Resistor::writeJson(QJsonObject& json) const
-{
+void Resistor::writeJson(QJsonObject &json) const {
     json["type"] = "resistor";
     json["x"] = location.x();
     json["y"] = location.y();
-    json["orientation"] = (orientation == Qt::Horizontal) ? "horizontal" : "vertical";
+    json["orientation"] =
+        (orientation == Qt::Horizontal) ? "horizontal" : "vertical";
     json["resistance"] = resistance;
 }
 
 // Отрисовка резистора в нужном состоянии
-void Resistor::render(QPainter& painter, RenderingState state) const
-{
+void Resistor::render(QPainter &painter, RenderingState state) const {
     // Переход к левому/верхнему краю и горизонтальной ориентации
     if (orientation == Qt::Horizontal)
         painter.translate(-RenderArea::GRID_POINTS_DISTANCE, 0);
-    else
-    {
+    else {
         painter.translate(0, -RenderArea::GRID_POINTS_DISTANCE);
         painter.rotate(90.0);
     }
 
     // Провода по краям резистора
     painter.drawRect(0, -1, 4 * RenderArea::GRID_POINTS_DISTANCE / 10, 2);
-    painter.drawRect(16 * RenderArea::GRID_POINTS_DISTANCE / 10, -1, 4 * RenderArea::GRID_POINTS_DISTANCE / 10, 2);
+    painter.drawRect(16 * RenderArea::GRID_POINTS_DISTANCE / 10, -1,
+                     4 * RenderArea::GRID_POINTS_DISTANCE / 10, 2);
 
     // Прямоугольник-резистор
     painter.setBrush(RenderArea::WHITE_BRUSH);
     painter.setPen(RenderArea::findPen(state));
-    painter.drawRect(4 * RenderArea::GRID_POINTS_DISTANCE / 10, -RenderArea::GRID_POINTS_DISTANCE / 4,
-        12 * RenderArea::GRID_POINTS_DISTANCE / 10, RenderArea::GRID_POINTS_DISTANCE / 2);
+    painter.drawRect(4 * RenderArea::GRID_POINTS_DISTANCE / 10,
+                     -RenderArea::GRID_POINTS_DISTANCE / 4,
+                     12 * RenderArea::GRID_POINTS_DISTANCE / 10,
+                     RenderArea::GRID_POINTS_DISTANCE / 2);
 }
 
 // Создание резистора по позиции, ориентации и списку свойств
-ElectricalElement* ResistorFactory::create(QPoint location, Qt::Orientation orientation, const QStringList& properties) const
-{
+ElectricalElement *
+ResistorFactory::create(QPoint location, Qt::Orientation orientation,
+                        const QStringList &properties) const {
     // Сопротивление
     bool ok = false;
     double resistance = properties[0].toDouble(&ok);
@@ -81,8 +80,8 @@ ElectricalElement* ResistorFactory::create(QPoint location, Qt::Orientation orie
 }
 
 // Создание резистора из JSON-объекта
-ElectricalElement* ResistorFactory::readJsonAndCreate(const QJsonObject& json) const
-{
+ElectricalElement *
+ResistorFactory::readJsonAndCreate(const QJsonObject &json) const {
     // Позиция
     if (!json.contains("x") || !json.contains("y"))
         return nullptr;
@@ -96,7 +95,8 @@ ElectricalElement* ResistorFactory::readJsonAndCreate(const QJsonObject& json) c
     QString orientationStr = json["orientation"].toString("");
     if (orientationStr != "horizontal" && orientationStr != "vertical")
         return nullptr;
-    Qt::Orientation orientation = (orientationStr == "horizontal") ? Qt::Horizontal : Qt::Vertical;
+    Qt::Orientation orientation =
+        (orientationStr == "horizontal") ? Qt::Horizontal : Qt::Vertical;
 
     // Сопротивление
     if (!json.contains("resistance") || !json["resistance"].isDouble())

@@ -1,14 +1,12 @@
 ﻿#include "ElectricLamp.h"
 
 // Конструктор, принимающий позицию центра, ориентацию и сопротивление
-ElectricLamp::ElectricLamp(QPoint location, Qt::Orientation orientation, double resistance)
-    : ElectricalElement(location, orientation, resistance), activated(false)
-{
-}
+ElectricLamp::ElectricLamp(QPoint location, Qt::Orientation orientation,
+                           double resistance)
+    : ElectricalElement(location, orientation, resistance), activated(false) {}
 
 // Обновление свойств лампы по списку
-bool ElectricLamp::updateFromProperties(const QStringList& properties)
-{
+bool ElectricLamp::updateFromProperties(const QStringList &properties) {
     // Сопротивление
     bool ok;
     double newResistance = properties[0].toDouble(&ok);
@@ -20,8 +18,7 @@ bool ElectricLamp::updateFromProperties(const QStringList& properties)
 }
 
 // Заполнение таблицы свойств
-void ElectricLamp::fillPropertiesTable(QTableWidget* tw) const
-{
+void ElectricLamp::fillPropertiesTable(QTableWidget *tw) const {
     // Создание 2 столбцов и 1 строки
     ElectricalElement::fillPropertiesTable(tw);
     tw->setRowCount(1);
@@ -36,52 +33,57 @@ void ElectricLamp::fillPropertiesTable(QTableWidget* tw) const
 }
 
 // Запись лампы в JSON-документ
-void ElectricLamp::writeJson(QJsonObject& json) const
-{
+void ElectricLamp::writeJson(QJsonObject &json) const {
     json["type"] = "electricLamp";
     json["x"] = location.x();
     json["y"] = location.y();
-    json["orientation"] = (orientation == Qt::Horizontal) ? "horizontal" : "vertical";
+    json["orientation"] =
+        (orientation == Qt::Horizontal) ? "horizontal" : "vertical";
     json["resistance"] = resistance;
 }
 
 // Отрисовка лампы в нужном состоянии
-void ElectricLamp::render(QPainter& painter, RenderingState state) const
-{
+void ElectricLamp::render(QPainter &painter, RenderingState state) const {
     // Переход к левому/верхнему краю и горизонтальной ориентации
     if (orientation == Qt::Horizontal)
         painter.translate(-RenderArea::GRID_POINTS_DISTANCE, 0);
-    else
-    {
+    else {
         painter.translate(0, -RenderArea::GRID_POINTS_DISTANCE);
         painter.rotate(90.0);
     }
 
     // Провода по краям лампы
     painter.drawRect(0, -1, RenderArea::GRID_POINTS_DISTANCE / 2 + 1, 2);
-    painter.drawRect(3 * RenderArea::GRID_POINTS_DISTANCE / 2, -1, RenderArea::GRID_POINTS_DISTANCE / 2 + 1, 2);
+    painter.drawRect(3 * RenderArea::GRID_POINTS_DISTANCE / 2, -1,
+                     RenderArea::GRID_POINTS_DISTANCE / 2 + 1, 2);
 
     // Основная часть - круг
     painter.save();
-    painter.setBrush(activated ? RenderArea::YELLOW_BRUSH : RenderArea::WHITE_BRUSH);
+    painter.setBrush(activated ? RenderArea::YELLOW_BRUSH
+                               : RenderArea::WHITE_BRUSH);
     painter.setPen(RenderArea::findPen(state));
-    painter.drawEllipse(RenderArea::GRID_POINTS_DISTANCE / 2 + 1, -RenderArea::GRID_POINTS_DISTANCE / 2 + 1,
-        RenderArea::GRID_POINTS_DISTANCE - 2, RenderArea::GRID_POINTS_DISTANCE - 2);
+    painter.drawEllipse(RenderArea::GRID_POINTS_DISTANCE / 2 + 1,
+                        -RenderArea::GRID_POINTS_DISTANCE / 2 + 1,
+                        RenderArea::GRID_POINTS_DISTANCE - 2,
+                        RenderArea::GRID_POINTS_DISTANCE - 2);
     painter.restore();
 
     // Крест
     painter.save();
     painter.translate(RenderArea::GRID_POINTS_DISTANCE, 0);
     painter.rotate(45);
-    painter.drawRect(-RenderArea::GRID_POINTS_DISTANCE / 2, -1, RenderArea::GRID_POINTS_DISTANCE, 2);
+    painter.drawRect(-RenderArea::GRID_POINTS_DISTANCE / 2, -1,
+                     RenderArea::GRID_POINTS_DISTANCE, 2);
     painter.rotate(-90);
-    painter.drawRect(-RenderArea::GRID_POINTS_DISTANCE / 2, -1, RenderArea::GRID_POINTS_DISTANCE, 2);
+    painter.drawRect(-RenderArea::GRID_POINTS_DISTANCE / 2, -1,
+                     RenderArea::GRID_POINTS_DISTANCE, 2);
     painter.restore();
 }
 
 // Создание лампы по позиции, ориентации и списку свойств
-ElectricalElement* ElectricLampFactory::create(QPoint location, Qt::Orientation orientation, const QStringList& properties) const
-{
+ElectricalElement *
+ElectricLampFactory::create(QPoint location, Qt::Orientation orientation,
+                            const QStringList &properties) const {
     // Сопротивление
     bool ok = false;
     double resistance = properties[0].toDouble(&ok);
@@ -92,8 +94,8 @@ ElectricalElement* ElectricLampFactory::create(QPoint location, Qt::Orientation 
 }
 
 // Создание лампы из JSON-объекта
-ElectricalElement* ElectricLampFactory::readJsonAndCreate(const QJsonObject& json) const
-{
+ElectricalElement *
+ElectricLampFactory::readJsonAndCreate(const QJsonObject &json) const {
     // Позиция
     if (!json.contains("x") || !json.contains("y"))
         return nullptr;
@@ -107,7 +109,8 @@ ElectricalElement* ElectricLampFactory::readJsonAndCreate(const QJsonObject& jso
     QString orientationStr = json["orientation"].toString("");
     if (orientationStr != "horizontal" && orientationStr != "vertical")
         return nullptr;
-    Qt::Orientation orientation = (orientationStr == "horizontal") ? Qt::Horizontal : Qt::Vertical;
+    Qt::Orientation orientation =
+        (orientationStr == "horizontal") ? Qt::Horizontal : Qt::Vertical;
 
     // Сопротивление
     if (!json.contains("resistance") || !json["resistance"].isDouble())

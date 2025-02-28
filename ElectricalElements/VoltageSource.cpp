@@ -1,14 +1,13 @@
 ﻿#include "VoltageSource.h"
 
-// Конструктор, принимающий позицию центра, ориентацию, сопротивление и напряжение
-VoltageSource::VoltageSource(QPoint location, Qt::Orientation orientation, double resistance, double voltage)
-    : ElectricalElement(location, orientation, resistance), voltage(voltage)
-{
-}
+// Конструктор, принимающий позицию центра, ориентацию, сопротивление и
+// напряжение
+VoltageSource::VoltageSource(QPoint location, Qt::Orientation orientation,
+                             double resistance, double voltage)
+    : ElectricalElement(location, orientation, resistance), voltage(voltage) {}
 
 // Обновление свойств источника напряжения по списку
-bool VoltageSource::updateFromProperties(const QStringList& properties)
-{
+bool VoltageSource::updateFromProperties(const QStringList &properties) {
     // Напряжение
     bool ok;
     double newVoltage = properties[0].toDouble(&ok);
@@ -25,8 +24,7 @@ bool VoltageSource::updateFromProperties(const QStringList& properties)
 }
 
 // Заполнение таблицы свойств
-void VoltageSource::fillPropertiesTable(QTableWidget* tw) const
-{
+void VoltageSource::fillPropertiesTable(QTableWidget *tw) const {
     // Создание 2 столбцов и 2 строк
     ElectricalElement::fillPropertiesTable(tw);
     tw->setRowCount(2);
@@ -40,7 +38,8 @@ void VoltageSource::fillPropertiesTable(QTableWidget* tw) const
     tw->setItem(0, 1, item01);
 
     // Строка для сопротивления
-    auto item10 = new QTableWidgetItem(QString(u8"Внутреннее сопротивление (Ом)"));
+    auto item10 =
+        new QTableWidgetItem(QString(u8"Внутреннее сопротивление (Ом)"));
     item10->setFlags(item10->flags() & ~Qt::ItemFlag::ItemIsEditable);
     tw->setItem(1, 0, item10);
     auto item11 = new QTableWidgetItem(QString::number(resistance));
@@ -49,58 +48,62 @@ void VoltageSource::fillPropertiesTable(QTableWidget* tw) const
 }
 
 // Запись источника напряжения в JSON-документ
-void VoltageSource::writeJson(QJsonObject& json) const
-{
+void VoltageSource::writeJson(QJsonObject &json) const {
     json["type"] = "voltageSource";
     json["x"] = location.x();
     json["y"] = location.y();
-    json["orientation"] = (orientation == Qt::Horizontal) ? "horizontal" : "vertical";
+    json["orientation"] =
+        (orientation == Qt::Horizontal) ? "horizontal" : "vertical";
     json["voltage"] = voltage;
     json["resistance"] = resistance;
 }
 
 // Отрисовка источника напряжения в нужном состоянии
-void VoltageSource::render(QPainter& painter, RenderingState state) const
-{
+void VoltageSource::render(QPainter &painter, RenderingState state) const {
     // Переход к левому/верхнему краю и горизонтальной ориентации
     if (orientation == Qt::Horizontal)
         painter.translate(-RenderArea::GRID_POINTS_DISTANCE, 0);
-    else
-    {
+    else {
         painter.translate(0, -RenderArea::GRID_POINTS_DISTANCE);
         painter.rotate(90.0);
     }
 
     // Провода по краям источника напряжения
     painter.drawRect(0, -1, RenderArea::GRID_POINTS_DISTANCE / 2 + 1, 2);
-    painter.drawRect(3 * RenderArea::GRID_POINTS_DISTANCE / 2, -1, RenderArea::GRID_POINTS_DISTANCE / 2 + 1, 2);
+    painter.drawRect(3 * RenderArea::GRID_POINTS_DISTANCE / 2, -1,
+                     RenderArea::GRID_POINTS_DISTANCE / 2 + 1, 2);
 
     // Основная часть - круг
     painter.save();
     painter.setBrush(RenderArea::WHITE_BRUSH);
     painter.setPen(RenderArea::findPen(state));
-    painter.drawEllipse(RenderArea::GRID_POINTS_DISTANCE / 2 + 1, -RenderArea::GRID_POINTS_DISTANCE / 2 + 1,
-        RenderArea::GRID_POINTS_DISTANCE - 2, RenderArea::GRID_POINTS_DISTANCE - 2);
+    painter.drawEllipse(RenderArea::GRID_POINTS_DISTANCE / 2 + 1,
+                        -RenderArea::GRID_POINTS_DISTANCE / 2 + 1,
+                        RenderArea::GRID_POINTS_DISTANCE - 2,
+                        RenderArea::GRID_POINTS_DISTANCE - 2);
     painter.restore();
 
     // Знак "+"
     painter.drawRect(RenderArea::GRID_POINTS_DISTANCE / 2 + 4, -1,
-        RenderArea::GRID_POINTS_DISTANCE / 4, 2);
-    painter.drawRect(5 * RenderArea::GRID_POINTS_DISTANCE / 8 + 3, -RenderArea::GRID_POINTS_DISTANCE / 8,
-        2, RenderArea::GRID_POINTS_DISTANCE / 4);
+                     RenderArea::GRID_POINTS_DISTANCE / 4, 2);
+    painter.drawRect(5 * RenderArea::GRID_POINTS_DISTANCE / 8 + 3,
+                     -RenderArea::GRID_POINTS_DISTANCE / 8, 2,
+                     RenderArea::GRID_POINTS_DISTANCE / 4);
 
     // Знак "-"
     if (orientation == Qt::Horizontal)
         painter.drawRect(10 * RenderArea::GRID_POINTS_DISTANCE / 8 - 4, -1,
-            RenderArea::GRID_POINTS_DISTANCE / 4, 2);
+                         RenderArea::GRID_POINTS_DISTANCE / 4, 2);
     else
-        painter.drawRect(10 * RenderArea::GRID_POINTS_DISTANCE / 8, -RenderArea::GRID_POINTS_DISTANCE / 8,
-            2, RenderArea::GRID_POINTS_DISTANCE / 4);
+        painter.drawRect(10 * RenderArea::GRID_POINTS_DISTANCE / 8,
+                         -RenderArea::GRID_POINTS_DISTANCE / 8, 2,
+                         RenderArea::GRID_POINTS_DISTANCE / 4);
 }
 
 // Создание источника напряжения по позиции, ориентации и списку свойств
-ElectricalElement* VoltageSourceFactory::create(QPoint location, Qt::Orientation orientation, const QStringList& properties) const
-{
+ElectricalElement *
+VoltageSourceFactory::create(QPoint location, Qt::Orientation orientation,
+                             const QStringList &properties) const {
     // Напряжение
     bool ok;
     double voltage = properties[0].toDouble(&ok);
@@ -115,8 +118,8 @@ ElectricalElement* VoltageSourceFactory::create(QPoint location, Qt::Orientation
 }
 
 // Создание источника напряжения из JSON-объекта
-ElectricalElement* VoltageSourceFactory::readJsonAndCreate(const QJsonObject& json) const
-{
+ElectricalElement *
+VoltageSourceFactory::readJsonAndCreate(const QJsonObject &json) const {
     // Позиция
     if (!json.contains("x") || !json.contains("y"))
         return nullptr;
@@ -130,7 +133,8 @@ ElectricalElement* VoltageSourceFactory::readJsonAndCreate(const QJsonObject& js
     QString orientationStr = json["orientation"].toString("");
     if (orientationStr != "horizontal" && orientationStr != "vertical")
         return nullptr;
-    Qt::Orientation orientation = (orientationStr == "horizontal") ? Qt::Horizontal : Qt::Vertical;
+    Qt::Orientation orientation =
+        (orientationStr == "horizontal") ? Qt::Horizontal : Qt::Vertical;
 
     // Напряжение
     if (!json.contains("voltage") || !json["voltage"].isDouble())

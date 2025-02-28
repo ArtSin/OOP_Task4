@@ -1,8 +1,7 @@
 ﻿#include "MainWindow.h"
 #include <QtWidgets/QApplication>
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char *argv[]) {
     // Создание приложения
     QApplication a(argc, argv);
     // Создание главного окна

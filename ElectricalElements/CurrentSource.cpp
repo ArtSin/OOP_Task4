@@ -1,14 +1,12 @@
 ﻿#include "CurrentSource.h"
 
 // Конструктор, принимающий позицию центра, ориентацию, сопротивление и ток
-CurrentSource::CurrentSource(QPoint location, Qt::Orientation orientation, double resistance, double current)
-    : ElectricalElement(location, orientation, resistance), current(current)
-{
-}
+CurrentSource::CurrentSource(QPoint location, Qt::Orientation orientation,
+                             double resistance, double current)
+    : ElectricalElement(location, orientation, resistance), current(current) {}
 
 // Обновление свойств источника тока по списку
-bool CurrentSource::updateFromProperties(const QStringList& properties)
-{
+bool CurrentSource::updateFromProperties(const QStringList &properties) {
     // Ток
     bool ok;
     double newCurrent = properties[0].toDouble(&ok);
@@ -25,8 +23,7 @@ bool CurrentSource::updateFromProperties(const QStringList& properties)
 }
 
 // Заполнение таблицы свойств
-void CurrentSource::fillPropertiesTable(QTableWidget* tw) const
-{
+void CurrentSource::fillPropertiesTable(QTableWidget *tw) const {
     // Создание 2 столбцов и 2 строк
     ElectricalElement::fillPropertiesTable(tw);
     tw->setRowCount(2);
@@ -40,7 +37,8 @@ void CurrentSource::fillPropertiesTable(QTableWidget* tw) const
     tw->setItem(0, 1, item01);
 
     // Строка для сопротивления
-    auto item10 = new QTableWidgetItem(QString(u8"Внутреннее сопротивление (Ом)"));
+    auto item10 =
+        new QTableWidgetItem(QString(u8"Внутреннее сопротивление (Ом)"));
     item10->setFlags(item10->flags() & ~Qt::ItemFlag::ItemIsEditable);
     tw->setItem(1, 0, item10);
     auto item11 = new QTableWidgetItem(QString::number(resistance));
@@ -49,43 +47,44 @@ void CurrentSource::fillPropertiesTable(QTableWidget* tw) const
 }
 
 // Запись источника тока в JSON-документ
-void CurrentSource::writeJson(QJsonObject& json) const
-{
+void CurrentSource::writeJson(QJsonObject &json) const {
     json["type"] = "currentSource";
     json["x"] = location.x();
     json["y"] = location.y();
-    json["orientation"] = (orientation == Qt::Horizontal) ? "horizontal" : "vertical";
+    json["orientation"] =
+        (orientation == Qt::Horizontal) ? "horizontal" : "vertical";
     json["current"] = current;
     json["resistance"] = resistance;
 }
 
 // Отрисовка источника тока в нужном состоянии
-void CurrentSource::render(QPainter& painter, RenderingState state) const
-{
+void CurrentSource::render(QPainter &painter, RenderingState state) const {
     // Переход к левому/верхнему краю и горизонтальной ориентации
     if (orientation == Qt::Horizontal)
         painter.translate(-RenderArea::GRID_POINTS_DISTANCE, 0);
-    else
-    {
+    else {
         painter.translate(0, -RenderArea::GRID_POINTS_DISTANCE);
         painter.rotate(90.0);
     }
 
     // Провода по краям источника тока
     painter.drawRect(0, -1, RenderArea::GRID_POINTS_DISTANCE / 2 + 1, 2);
-    painter.drawRect(3 * RenderArea::GRID_POINTS_DISTANCE / 2, -1, RenderArea::GRID_POINTS_DISTANCE / 2 + 1, 2);
+    painter.drawRect(3 * RenderArea::GRID_POINTS_DISTANCE / 2, -1,
+                     RenderArea::GRID_POINTS_DISTANCE / 2 + 1, 2);
 
     // Основная часть - круг
     painter.save();
     painter.setBrush(RenderArea::WHITE_BRUSH);
     painter.setPen(RenderArea::findPen(state));
-    painter.drawEllipse(RenderArea::GRID_POINTS_DISTANCE / 2 + 1, -RenderArea::GRID_POINTS_DISTANCE / 2 + 1,
-        RenderArea::GRID_POINTS_DISTANCE - 2, RenderArea::GRID_POINTS_DISTANCE - 2);
+    painter.drawEllipse(RenderArea::GRID_POINTS_DISTANCE / 2 + 1,
+                        -RenderArea::GRID_POINTS_DISTANCE / 2 + 1,
+                        RenderArea::GRID_POINTS_DISTANCE - 2,
+                        RenderArea::GRID_POINTS_DISTANCE - 2);
     painter.restore();
 
     // Основная часть стрелки
     painter.drawRect(RenderArea::GRID_POINTS_DISTANCE / 2 + 4, -1,
-        RenderArea::GRID_POINTS_DISTANCE - 8, 2);
+                     RenderArea::GRID_POINTS_DISTANCE - 8, 2);
     // Концы стрелки
     painter.save();
     painter.translate(RenderArea::GRID_POINTS_DISTANCE / 2 + 5, 0);
@@ -97,8 +96,9 @@ void CurrentSource::render(QPainter& painter, RenderingState state) const
 }
 
 // Создание источника тока по позиции, ориентации и списку свойств
-ElectricalElement* CurrentSourceFactory::create(QPoint location, Qt::Orientation orientation, const QStringList& properties) const
-{
+ElectricalElement *
+CurrentSourceFactory::create(QPoint location, Qt::Orientation orientation,
+                             const QStringList &properties) const {
     // Ток
     bool ok;
     double current = properties[0].toDouble(&ok);
@@ -113,8 +113,8 @@ ElectricalElement* CurrentSourceFactory::create(QPoint location, Qt::Orientation
 }
 
 // Создание источника тока из JSON-объекта
-ElectricalElement* CurrentSourceFactory::readJsonAndCreate(const QJsonObject& json) const
-{
+ElectricalElement *
+CurrentSourceFactory::readJsonAndCreate(const QJsonObject &json) const {
     // Позиция
     if (!json.contains("x") || !json.contains("y"))
         return nullptr;
@@ -128,7 +128,8 @@ ElectricalElement* CurrentSourceFactory::readJsonAndCreate(const QJsonObject& js
     QString orientationStr = json["orientation"].toString("");
     if (orientationStr != "horizontal" && orientationStr != "vertical")
         return nullptr;
-    Qt::Orientation orientation = (orientationStr == "horizontal") ? Qt::Horizontal : Qt::Vertical;
+    Qt::Orientation orientation =
+        (orientationStr == "horizontal") ? Qt::Horizontal : Qt::Vertical;
 
     // Ток
     if (!json.contains("current") || !json["current"].isDouble())

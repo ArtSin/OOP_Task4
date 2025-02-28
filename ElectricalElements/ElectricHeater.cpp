@@ -1,14 +1,12 @@
 ﻿#include "ElectricHeater.h"
 
 // Конструктор, принимающий позицию центра, ориентацию и сопротивление
-ElectricHeater::ElectricHeater(QPoint location, Qt::Orientation orientation, double resistance)
-    : ElectricalElement(location, orientation, resistance), activated(false)
-{
-}
+ElectricHeater::ElectricHeater(QPoint location, Qt::Orientation orientation,
+                               double resistance)
+    : ElectricalElement(location, orientation, resistance), activated(false) {}
 
 // Обновление свойств электронагревателя по списку
-bool ElectricHeater::updateFromProperties(const QStringList& properties)
-{
+bool ElectricHeater::updateFromProperties(const QStringList &properties) {
     // Сопротивление
     bool ok;
     double newResistance = properties[0].toDouble(&ok);
@@ -20,8 +18,7 @@ bool ElectricHeater::updateFromProperties(const QStringList& properties)
 }
 
 // Заполнение таблицы свойств
-void ElectricHeater::fillPropertiesTable(QTableWidget* tw) const
-{
+void ElectricHeater::fillPropertiesTable(QTableWidget *tw) const {
     // Создание 2 столбцов и 1 строки
     ElectricalElement::fillPropertiesTable(tw);
     tw->setRowCount(1);
@@ -36,48 +33,53 @@ void ElectricHeater::fillPropertiesTable(QTableWidget* tw) const
 }
 
 // Запись электронагревателя в JSON-документ
-void ElectricHeater::writeJson(QJsonObject& json) const
-{
+void ElectricHeater::writeJson(QJsonObject &json) const {
     json["type"] = "electricHeater";
     json["x"] = location.x();
     json["y"] = location.y();
-    json["orientation"] = (orientation == Qt::Horizontal) ? "horizontal" : "vertical";
+    json["orientation"] =
+        (orientation == Qt::Horizontal) ? "horizontal" : "vertical";
     json["resistance"] = resistance;
 }
 
 // Отрисовка электронагревателя в нужном состоянии
-void ElectricHeater::render(QPainter& painter, RenderingState state) const
-{
+void ElectricHeater::render(QPainter &painter, RenderingState state) const {
     // Переход к левому/верхнему краю и горизонтальной ориентации
     if (orientation == Qt::Horizontal)
         painter.translate(-RenderArea::GRID_POINTS_DISTANCE, 0);
-    else
-    {
+    else {
         painter.translate(0, -RenderArea::GRID_POINTS_DISTANCE);
         painter.rotate(90.0);
     }
 
     // Провода по краям электронагревателя
     painter.drawRect(0, -1, 4 * RenderArea::GRID_POINTS_DISTANCE / 10, 2);
-    painter.drawRect(16 * RenderArea::GRID_POINTS_DISTANCE / 10, -1, 4 * RenderArea::GRID_POINTS_DISTANCE / 10, 2);
-    
+    painter.drawRect(16 * RenderArea::GRID_POINTS_DISTANCE / 10, -1,
+                     4 * RenderArea::GRID_POINTS_DISTANCE / 10, 2);
+
     // Основная часть - прямоугольник (красный, если нагрет)
     painter.save();
-    painter.setBrush(activated ? RenderArea::RED_BRUSH : RenderArea::WHITE_BRUSH);
+    painter.setBrush(activated ? RenderArea::RED_BRUSH
+                               : RenderArea::WHITE_BRUSH);
     painter.setPen(RenderArea::findPen(state));
-    painter.drawRect(4 * RenderArea::GRID_POINTS_DISTANCE / 10, -RenderArea::GRID_POINTS_DISTANCE / 4,
-        12 * RenderArea::GRID_POINTS_DISTANCE / 10, RenderArea::GRID_POINTS_DISTANCE / 2);
+    painter.drawRect(4 * RenderArea::GRID_POINTS_DISTANCE / 10,
+                     -RenderArea::GRID_POINTS_DISTANCE / 4,
+                     12 * RenderArea::GRID_POINTS_DISTANCE / 10,
+                     RenderArea::GRID_POINTS_DISTANCE / 2);
     painter.restore();
 
     // Полоски
     for (int i = 0; i < 3; i++)
-        painter.drawRect((7 + 3 * i) * RenderArea::GRID_POINTS_DISTANCE / 10 - 1, -RenderArea::GRID_POINTS_DISTANCE / 4,
-            2, RenderArea::GRID_POINTS_DISTANCE / 2);
+        painter.drawRect((7 + 3 * i) * RenderArea::GRID_POINTS_DISTANCE / 10 -
+                             1,
+                         -RenderArea::GRID_POINTS_DISTANCE / 4, 2,
+                         RenderArea::GRID_POINTS_DISTANCE / 2);
 }
 
 // Создание электронагревателя по позиции, ориентации и списку свойств
-ElectricalElement* ElectricHeaterFactory::create(QPoint location, Qt::Orientation orientation, const QStringList& properties) const
-{
+ElectricalElement *
+ElectricHeaterFactory::create(QPoint location, Qt::Orientation orientation,
+                              const QStringList &properties) const {
     // Сопротивление
     bool ok = false;
     double resistance = properties[0].toDouble(&ok);
@@ -88,8 +90,8 @@ ElectricalElement* ElectricHeaterFactory::create(QPoint location, Qt::Orientatio
 }
 
 // Создание электронагревателя из JSON-объекта
-ElectricalElement* ElectricHeaterFactory::readJsonAndCreate(const QJsonObject& json) const
-{
+ElectricalElement *
+ElectricHeaterFactory::readJsonAndCreate(const QJsonObject &json) const {
     // Позиция
     if (!json.contains("x") || !json.contains("y"))
         return nullptr;
@@ -103,7 +105,8 @@ ElectricalElement* ElectricHeaterFactory::readJsonAndCreate(const QJsonObject& j
     QString orientationStr = json["orientation"].toString("");
     if (orientationStr != "horizontal" && orientationStr != "vertical")
         return nullptr;
-    Qt::Orientation orientation = (orientationStr == "horizontal") ? Qt::Horizontal : Qt::Vertical;
+    Qt::Orientation orientation =
+        (orientationStr == "horizontal") ? Qt::Horizontal : Qt::Vertical;
 
     // Сопротивление
     if (!json.contains("resistance") || !json["resistance"].isDouble())
