@@ -118,27 +118,28 @@ void ElectricalElementsManager::fillElementsList(QListWidget *lw) const {
 
 // Добавление элемента в схему
 void ElectricalElementsManager::addElement(ElectricalElement *element) {
-    elements[element->getOrientation() - 1][element->getLocation()] = element;
+    elements[(int)element->getOrientation() - 1][element->getLocation()] =
+        element;
 }
 
 // Получение элемента с заданной позицией и ориентацией
 ElectricalElement *
 ElectricalElementsManager::getElement(const QPoint &loc,
                                       Qt::Orientation orientation) {
-    auto it = elements[orientation - 1].find(loc);
-    return (it != elements[orientation - 1].end()) ? it.value() : nullptr;
+    auto it = elements[(int)orientation - 1].find(loc);
+    return (it != elements[(int)orientation - 1].end()) ? it.value() : nullptr;
 }
 
 // Удаление элемента из схемы
 void ElectricalElementsManager::removeElement(const QPoint &loc,
                                               Qt::Orientation orientation,
                                               bool deleteElement) {
-    auto it = elements[orientation - 1].find(loc);
-    if (it != elements[orientation - 1].end()) {
+    auto it = elements[(int)orientation - 1].find(loc);
+    if (it != elements[(int)orientation - 1].end()) {
         // Уничтожение удаляемого элемента
         if (deleteElement)
             delete it.value();
-        elements[orientation - 1].erase(it);
+        elements[(int)orientation - 1].erase(it);
     }
 }
 

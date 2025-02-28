@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7.0)
+cmake_minimum_required(VERSION 3.10)
 
 project(OOP_Task4 VERSION 1.0.0 LANGUAGES CXX)
 
@@ -17,7 +17,7 @@ else()
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
+find_package(Qt6 COMPONENTS Core Gui Widgets REQUIRED)
 
 add_executable(OOP_Task4
     AddElementDialog.cpp
@@ -55,4 +55,4 @@ add_executable(OOP_Task4
     RenderArea.h
 )
 
-target_link_libraries(OOP_Task4 Qt5::Core Qt5::Gui Qt5::Widgets)
+target_link_libraries(OOP_Task4 Qt6::Core Qt6::Gui Qt6::Widgets)
